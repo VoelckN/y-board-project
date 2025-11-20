@@ -36,17 +36,6 @@ void loop() {
   // ====================================
   
 
-  // ========ROTARY ENCODER (KNOB)========
-  int knob_position;        // Declare variables like these at the top of your file (before setup()) so you can use them to store values.
-  bool knob_button_pressed; //
-
-  // Use these commands to get values from the rotary encoder (knob).
-  knob_position = Yboard.get_knob();
-  knob_button_pressed = Yboard.get_knob_button();
-  // Then use those values however you need them
-  // =====================================
-
-
   // ========DISPLAY========
   Yboard.display.clearDisplay(); // Clear the display
   Yboard.display.setTextSize(1); // Set text size to 1 (smallest)
