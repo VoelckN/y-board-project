@@ -1,6 +1,11 @@
 #include <Arduino.h>
 #include "yboard.h"
 
+  int x_value;  //Declare variables like these at the top of your file (before setup()) so you can use them to store values.
+  int y_value;  //
+  int z_value;  //
+  bool button_1;  // Declare variables like these at the top of your file (before setup()) so you can use them to store values.
+  bool switch_1;  //
 
 void setup() {
   Serial.begin(9600);
@@ -23,8 +28,6 @@ void loop() {
 
 
   // ========BUTTONS AND SWITCHES========
-  bool button_1;  // Declare variables like these at the top of your file (before setup()) so you can use them to store values.
-  bool switch_1;  //
 
   // Use these commands to get values from the buttons and switches.
   button_1 = Yboard.get_button(1);  
@@ -67,10 +70,6 @@ void loop() {
 
   // ========ACCELEROMETER========
   // Here's an example of how to get angle data from the accelerometer. The Values the accelerometer gives are between 0 and 999.
-
-  int x_value;  //Declare variables like these at the top of your file (before setup()) so you can use them to store values.
-  int y_value;  //
-  int z_value;  //
 
   // Use a block like this to get data from the accelerometer using the variables you declared. The if() makes sure you're only getting data when it's available.
   if (Yboard.accelerometer_available()) {
