@@ -81,11 +81,4 @@ void loop() {
   }
   // Then you can use the x_value, y_value, and z_value variables to do whatever you want with the accelerometer data.
   // ============================
-
-
-  // ========PLAY NOTES========
-  // This plays a song on the speaker. The notes are specified in the string.
-  Yboard.play_notes("T160 V2 O5 F D. C#8 D. C#8 D8 B8- O4 G8 F"); // BYU Fight Song
-  // See lab 7 for info on how these strings work
-  // ==========================
 }
