@@ -1,11 +1,29 @@
 #include <Arduino.h>
 #include "yboard.h"
+#include <cmath>
 
-  int x_value;  //Declare variables like these at the top of your file (before setup()) so you can use them to store values.
-  int y_value;  //
-  int z_value;  //
+  float x_value;  //Declare variables like these at the top of your file (before setup()) so you can use them to store values.
+  float y_value;  //
+  float z_value;  //
   bool button_1;  // Declare variables like these at the top of your file (before setup()) so you can use them to store values.
   bool switch_1;  //
+  int NUM_LEDS(35);
+  int segment_length(3);
+
+// Function to map angle to LED index
+int angleToLED(float x, float y) {
+    // Compute angle in radians (-π to π)
+    float angle = atan2(y, x);
+
+    // Convert to degrees (0 to 360)
+    float degrees = angle * 180.0 / M_PI;
+    if (degrees < 0) degrees += 360.0;
+
+    // Map degrees to LED index
+    int ledIndex = static_cast<int>(degrees / (360.0 / NUM_LEDS));
+    return ledIndex;
+}
+
 
 void setup() {
   Serial.begin(9600);
@@ -28,12 +46,12 @@ void loop() {
     z_value = accel_data.z;
   }
   Yboard.set_led_brightness(64);
-  if (x_value > 100) {
-    Yboard.set_all_leds_color(0, 255, 0);
+  Yboard.set_all_leds_color(0,0,0);
+  int index = angleToLED(x_value, y_value);
+  for (int i=index; i < segment_length+index; i++) {
+    Yboard.set_led_color(i, 255, 255, 0);
   }
-  else {
-    Yboard.set_all_leds_color(0,0,0);
-  }
+
 
   // ========LEDS========
 
@@ -58,7 +76,9 @@ void loop() {
   Yboard.display.setTextSize(1); // Set text size to 1 (smallest)
   Yboard.display.setTextColor(SSD1306_WHITE); // Set text color to white
   Yboard.display.setCursor(0, 0); // Set cursor to top-left corner
-  Yboard.display.printf("x:%i", x_value); // Print text to the display
+  Yboard.display.printf("x:%i", static_cast<int>(x_value)); // Print text to the display
+  Yboard.display.setCursor(50, 0);
+  Yboard.display.printf("y:%i", static_cast<int>(y_value));
 
   // You can also draw shapes on the display. Here are some examples:
   Yboard.display.drawLine(0, 10, 127, 10, SSD1306_WHITE); // Draw a horizontal line across the display
