@@ -19,12 +19,15 @@ I use the bus multiple times a day, so frequent tests are possible within the ne
 ### Features
 This can include the following:
 
-- [ ] Lights that react to x- and y- spikes (maybe the lights react most to where the accelerometer is pointing/tipping)
+- [x] Lights that react to x- and y- spikes (maybe the lights react most to where the accelerometer is pointing/tipping)
 - [ ] Display of the current x/y/z data, with maximums for the current session
 - [ ] Switch options for testing different iterations of the above features
 
-## Plans
+## Issues
 ### Lights
+- [ ] Use the knob (or hard coding) to calibrate the lights to display north when tipped north
+- [ ] Adjust brightness through math of the x and y values. As both get closer to zero, turn brightness down. As one or both get further from zero, turn brightness up.
+- [ ] Change color with direction
 
 ### Display
 
