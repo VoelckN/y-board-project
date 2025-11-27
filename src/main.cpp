@@ -10,8 +10,9 @@
   int NUM_LEDS(35);
   int segment_length(3);
 
+
 // Function to map angle to LED index
-int angleToLED(float x, float y) {
+int angleToLED(const float &x, const float &y) {
     // Compute angle in radians (-π to π)
     float angle = atan2(y, x);
 
@@ -25,41 +26,35 @@ int angleToLED(float x, float y) {
 }
 
 
+int wrap(const int & value, const int & maxValue) {
+    int range = maxValue;
+    return ( ((value - 1) % range) + range ) % range + 1;
+}
+
+
 void setup() {
   Serial.begin(9600);
   Yboard.setup();
 }
 
-void loop() {
-  // For a full list of functions available on the Y-board, 
-  // see the header file at .pio/libdeps/esp32/Y-Board v4/include/yboard.h from lines 39-330.
-  
-  /*
-  ***** INITIAL WORK *****
-  Get the device to change color with accelerometer data (in the x-direction)
 
-  */
+void loop() {
+
+
   if (Yboard.accelerometer_available()) {
     accelerometer_data accel_data = Yboard.get_accelerometer();
     x_value = accel_data.x;
     y_value = accel_data.y;
     z_value = accel_data.z;
   }
-  Yboard.set_led_brightness(64);
+
+  
+  Yboard.set_led_brightness(128);
   Yboard.set_all_leds_color(0,0,0);
   int index = angleToLED(x_value, y_value);
   for (int i=index; i < segment_length+index; i++) {
-    Yboard.set_led_color(i, 255, 255, 0);
+    Yboard.set_led_color(wrap(i, NUM_LEDS), 0, 255, 0);
   }
-
-
-  // ========LEDS========
-
-  // Yboard.set_led_brightness(128);       // Set the brightness of all LEDs to 50% (128 out of 255)
-  // Yboard.set_all_leds_color(0, 255, 0); // Set all LEDs to green
-  // Yboard.set_led_color(1, 255, 0, 0);   // Set the first LED to red
-
-  // ====================
 
 
   // ========BUTTONS AND SWITCHES========
@@ -77,8 +72,10 @@ void loop() {
   Yboard.display.setTextColor(SSD1306_WHITE); // Set text color to white
   Yboard.display.setCursor(0, 0); // Set cursor to top-left corner
   Yboard.display.printf("x:%i", static_cast<int>(x_value)); // Print text to the display
-  Yboard.display.setCursor(50, 0);
+  Yboard.display.setCursor(40, 0);
   Yboard.display.printf("y:%i", static_cast<int>(y_value));
+  Yboard.display.setCursor(80,0);
+  Yboard.display.printf("i:%i", wrap(index, NUM_LEDS));
 
   // You can also draw shapes on the display. Here are some examples:
   Yboard.display.drawLine(0, 10, 127, 10, SSD1306_WHITE); // Draw a horizontal line across the display
@@ -93,19 +90,4 @@ void loop() {
   Yboard.display.display(); // Update the display to show the changes
   //(Including if you clear the display)
   // =======================
-
-  // ========ACCELEROMETER========
-  // Here's an example of how to get angle data from the accelerometer. The Values the accelerometer gives are between 0 and 999.
-
-  // Use a block like this to get data from the accelerometer using the variables you declared. The if() makes sure you're only getting data when it's available.
-  
-  // if (Yboard.accelerometer_available()) {
-  //   accelerometer_data accel_data = Yboard.get_accelerometer();
-  //   x_value = accel_data.x;
-  //   y_value = accel_data.y;
-  //   z_value = accel_data.z;
-  // }
-  
-  // Then you can use the x_value, y_value, and z_value variables to do whatever you want with the accelerometer data.
-  // ============================
 }
