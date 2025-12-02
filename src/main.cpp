@@ -5,8 +5,9 @@
   float x_value;  //Declare variables like these at the top of your file (before setup()) so you can use them to store values.
   float y_value;  //
   float z_value;  //
+  float max_x;
+  float max_y;
   bool button_1;  // Declare variables like these at the top of your file (before setup()) so you can use them to store values.
-  bool switch_1;  //
   int NUM_LEDS(35);
   int segment_length(3);
 
@@ -47,6 +48,13 @@ void loop() {
     y_value = accel_data.y;
     z_value = accel_data.z;
   }
+  // Update max values
+  if (std::abs(x_value) > std::abs(max_x)) {
+    max_x = x_value;
+  }
+  if (std::abs(y_value) > std::abs(max_y)) {
+    max_y = y_value;
+  }
 
   
   Yboard.set_led_brightness(128);
@@ -77,14 +85,10 @@ void loop() {
   Yboard.display.setCursor(80,0);
   Yboard.display.printf("i:%i", wrap(index, NUM_LEDS));
 
-  // You can also draw shapes on the display. Here are some examples:
-  Yboard.display.drawLine(0, 10, 127, 10, SSD1306_WHITE); // Draw a horizontal line across the display
-  Yboard.display.drawRect(10, 15, 50, 30, SSD1306_WHITE); // Draw a rectangle
-  Yboard.display.fillRect(70, 15, 50, 30, SSD1306_WHITE); // Draw a filled rectangle
-  Yboard.display.drawCircle(30, 50, 10, SSD1306_WHITE); // Draw a circle
-  Yboard.display.fillCircle(90, 50, 10, SSD1306_WHITE); // Draw a filled circle
-  Yboard.display.drawTriangle(110, 40, 120, 60, 100, 60, SSD1306_WHITE); // Draw a triangle
-  Yboard.display.fillTriangle(50, 40, 60, 60, 40, 60, SSD1306_WHITE); // Draw a filled triangle
+  Yboard.display.setCursor(0,20);
+  Yboard.display.printf("max X:%i", static_cast<int>(max_x));
+  Yboard.display.setCursor(0,40);
+  Yboard.display.printf("max Y:%i", static_cast<int>(max_y));
 
   //ANY time you make changes to the display, they won't be shown until you call this function:
   Yboard.display.display(); // Update the display to show the changes
