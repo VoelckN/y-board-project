@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "yboard.h"
 #include <cmath>
+#include <vector>
 
   float x_value;  //Declare variables like these at the top of your file (before setup()) so you can use them to store values.
   float y_value;  //
@@ -10,6 +11,8 @@
   bool button_1;  // Declare variables like these at the top of your file (before setup()) so you can use them to store values.
   int NUM_LEDS(35);
   int segment_length(3);
+  std::vector<int> leds = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,34,35};
+
 
 
 // Function to map angle to LED index
@@ -22,14 +25,14 @@ int angleToLED(const float &x, const float &y) {
     if (degrees < 0) degrees += 360.0;
 
     // Map degrees to LED index
-    int ledIndex = static_cast<int>(degrees / (360.0 / NUM_LEDS));
+    int ledIndex = static_cast<int>(degrees / (360.0 / leds.size()));
     return ledIndex;
 }
 
 
 int wrap(const int & value, const int & maxValue) {
     int range = maxValue;
-    return ( ((value - 1) % range) + range ) % range + 1;
+    return ( ((value - 1) % range) + range ) % range;
 }
 
 
@@ -67,7 +70,7 @@ void loop() {
   Yboard.set_all_leds_color(0,0,0);
   int index = angleToLED(x_value, y_value);
   for (int i=index; i < segment_length+index; i++) {
-    Yboard.set_led_color(wrap(i, NUM_LEDS), 0, 255, 0);
+    Yboard.set_led_color(leds[wrap(i, leds.size())], 0, 255, 0);
   }
 
 
