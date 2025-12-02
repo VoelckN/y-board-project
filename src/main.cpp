@@ -56,6 +56,12 @@ void loop() {
     max_y = y_value;
   }
 
+  // Reset using button 1
+  if (Yboard.get_button(1)) {
+    max_x = 0.0;
+    max_y = 0.0;
+  }
+
   
   Yboard.set_led_brightness(128);
   Yboard.set_all_leds_color(0,0,0);
